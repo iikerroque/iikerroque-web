@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://ikerroque.com/sitemap-index.xml

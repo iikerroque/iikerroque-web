@@ -1,0 +1,15 @@
+{
+  "name": "iikerroque-wordpress-herramientas",
+  "private": true,
+  "type": "module",
+  "description": "Genera el archivo de importación de WordPress y valida los bloques.",
+  "scripts": {
+    "generar": "node generar.mjs",
+    "validar": "node validar.mjs ../paginas/*.html ../plantillas/*.html"
+  },
+  "dependencies": {
+    "@wordpress/block-library": "12.2.0",
+    "@wordpress/blocks": "17.2.0",
+    "jsdom": "31.0.1"
+  }
+}

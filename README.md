@@ -1,83 +1,85 @@
-# ikerroque.com
+# Portfolio de Iker Roque · WordPress
 
-Portfolio personal de Iker Roque. Hecho con [Astro](https://astro.build): web estática, rápida y sin costes de servidor.
-
-## Cómo se edita (lo habitual, sin código)
-
-El contenido se edita con **[Pages CMS](https://pagescms.org)**, un editor visual gratuito que guarda los cambios en este repositorio de GitHub. Cada cambio publica la web automáticamente.
-
-1. Entra en <https://app.pagescms.org> con tu cuenta de GitHub.
-2. Abre este repositorio. Verás estas secciones:
-   - **Proyectos**: añadir, editar, ordenar, destacar en inicio, subir imágenes y vídeos.
-   - **Ideas (blog)**: escribir artículos. Desmarca *Borrador* para publicarlos.
-   - **Perfil y enlaces**: email, redes, foto, textos de «Sobre mí».
-   - **Experiencia y formación**: el CV digital.
-   - **Habilidades**: áreas y herramientas.
-3. Guarda. En 1–2 minutos el cambio está en la web.
-
-> **Textos pendientes**: todo lo que va entre `[corchetes]` aparece en la web resaltado en violeta como «por completar». Sustitúyelo por información real antes de difundir la web.
-
-### Consejos para imágenes
-- Portadas de proyecto: horizontales, unos **1600 × 1100 px**, en JPG o WebP y por debajo de **400 KB** (puedes comprimir en <https://squoosh.app>).
-- Si un proyecto no tiene portada, se genera una tipográfica con el color elegido en *Color de portada*.
-- Vídeos: mejor subirlos a YouTube/Vimeo y enlazarlos, o MP4 cortos (< 10 MB).
-
-## Estructura
+La web completa preparada para **WordPress.com (plan gratuito)** con el tema **Twenty Twenty-Four**.
+Todo se carga de una vez con un archivo de importación: 7 páginas, 5 proyectos con página propia, un artículo de ejemplo, imágenes, cabecera y pie.
 
 ```
-src/
-  content/proyectos/es/*.md   ← un archivo por proyecto = una página (/proyectos/nombre)
-  content/ideas/es/*.md       ← artículos del blog (/ideas/nombre)
-  data/perfil.json            ← datos personales, redes, textos de inicio y «Sobre mí»
-  data/trayectoria.json       ← CV: experiencia, formación, cursos, idiomas
-  data/habilidades.json       ← áreas de habilidades
-  i18n/ui.ts                  ← textos de interfaz y rutas (es / en)
-  styles/global.css           ← sistema visual (colores, tipografía, espaciado)
-  components/  layouts/  pages/
-public/
-  uploads/                    ← imágenes y archivos subidos desde el CMS
-  _headers                    ← cabeceras de seguridad
-.pages.yml                    ← configuración del editor Pages CMS
-docs/identidad/               ← manual de identidad visual (ábrelo en el navegador; no se publica en la web)
+wordpress/
+  importar-en-wordpress.xml   ← EL ARCHIVO QUE SUBES A WORDPRESS
+  imagenes/                   ← portadas, logotipo, icono y retrato provisional
+  plantillas/                 ← código de la cabecera y el pie (por si hay que pegarlo a mano)
+  paginas/                    ← código de cada página (copia de seguridad / pegar a mano)
+  herramientas/               ← generador y validador (solo para cambios con Claude Code)
+docs/identidad/               ← manual de identidad visual (ábrelo en el navegador)
 ```
 
-## Desarrollo local (para cambios de diseño, p. ej. con Claude Code)
+---
+
+## Paso a paso (unos 15 minutos)
+
+### 1. Crea el sitio
+1. Entra en <https://wordpress.com> y crea un sitio gratuito (por ejemplo `ikerroque.wordpress.com`).
+2. En el asistente, si te pide elegir diseño, elige **Twenty Twenty-Four**. Si no, después: **Apariencia → Temas →** busca *Twenty Twenty-Four* → **Activar**.
+
+### 2. Importa el contenido
+1. Descarga el archivo [`wordpress/importar-en-wordpress.xml`](wordpress/importar-en-wordpress.xml) (botón *Download raw file* en GitHub).
+2. En tu escritorio de WordPress: **Herramientas → Importar → WordPress** → sube el archivo.
+3. Cuando pregunte, asigna el contenido a tu usuario y **marca «Descargar e importar archivos adjuntos»** (así se traen las imágenes desde GitHub).
+
+### 3. Ajustes
+1. **Ajustes → Lectura → La página de inicio muestra: Una página estática → Página de inicio: «Inicio»**. Guarda.
+2. **Ajustes → Generales**: título «Iker Roque», descripción «Creador de contenido · Marketing». Sube `icono-sitio.png` como *Icono del sitio*.
+3. Borra lo que WordPress crea de ejemplo: la página «Página de ejemplo» y la entrada «¡Hola, mundo!».
+4. Cuando lo tengas listo: **Lanzar sitio** (los sitios nuevos de WordPress.com empiezan en modo «Próximamente»).
+
+### 4. Comprueba la cabecera y el pie
+El archivo de importación incluye la cabecera (logo + menú) y el pie («¿Hablamos?») del tema.
+Si al abrir la web ves todavía la cabecera original de Twenty Twenty-Four:
+
+1. **Apariencia → Editor → Patrones → Partes de plantilla → Header**.
+2. Menú ⋮ (arriba a la derecha) → **Editor de código**.
+3. Borra todo y pega el contenido de [`wordpress/plantillas/cabecera.html`](wordpress/plantillas/cabecera.html). Guarda.
+4. Repite con **Footer** y [`wordpress/plantillas/pie.html`](wordpress/plantillas/pie.html).
+
+> Si alguna página se importa vacía o con errores, ábrela, menú ⋮ → **Editor de código** y pega el archivo correspondiente de `wordpress/paginas/`.
+
+---
+
+## Cómo se edita después
+
+Todo se edita en el editor de bloques de WordPress, sin código.
+
+| Quiero… | Dónde |
+|---|---|
+| Cambiar textos | **Páginas** → abre la página y escribe encima |
+| Añadir un proyecto | **Páginas → Proyectos → Euroverse** → menú ⋮ → **Duplicar**. Cambia título, textos, imagen y en *Atributos de página* deja «Proyectos» como superior. Luego añade su tarjeta en la página *Proyectos* (duplica una tarjeta existente) |
+| Cambiar una portada | Haz clic en la imagen → **Reemplazar** → sube la tuya (horizontal, unos 1600 × 1100 px) |
+| Publicar un artículo | **Entradas → Añadir** (aparece solo en la página *Ideas*). El de ejemplo está en borrador |
+| Cambiar el menú | **Apariencia → Editor → Navegación** |
+
+**Textos pendientes.** Lo que aparece resaltado en violeta (por ejemplo *Tu rol en el proyecto*, *Nombre de tu titulación*) está pendiente: sustitúyelo por información real y quita el resaltado (selecciona el texto → icono ▾ → *Resaltado* → borrar).
+
+**Datos que conviene revisar:** el tipo de cada proyecto (Sahara Festival, Farray y Beach Sunset están marcados como *conceptuales*), tu foto (`retrato-provisional.jpg` es un marcador) y, si quieres, añadir Instagram o TikTok en la página *Contacto*. El email, LinkedIn y la ubicación ya están puestos (los que guardaste en Pages CMS).
+
+---
+
+## Qué cambia respecto al diseño original (límites del plan gratuito)
+
+El plan gratuito de WordPress.com no permite temas propios, CSS personalizado ni plugins, así que la web está construida solo con bloques estándar:
+
+- **Tipografías:** Inter (titulares y texto) y Cardo cursiva (acentos), que son las del tema, en lugar de Instrument Sans e Instrument Serif. Colores, composición, logotipo y el punto violeta se mantienen.
+- **Sin** filtro de proyectos por tipo, animaciones de entrada ni transiciones entre páginas.
+- La dirección será `…wordpress.com` y WordPress.com muestra **publicidad** en los sitios gratuitos.
+- **Dominio propio** (`ikerroque.com`) y **email profesional**: necesitan un plan de pago de WordPress.com (Personal o superior).
+
+## Para cambios grandes con Claude Code
+
+El contenido de partida se genera con `wordpress/herramientas/` usando la librería oficial de bloques de WordPress, y se valida bloque a bloque:
 
 ```bash
-npm install
-npm run dev       # http://localhost:4321
-npm run build     # genera /dist
+cd wordpress/herramientas && npm install && npm run generar && npm run validar
 ```
 
-## Publicación (gratis) — Cloudflare Pages
+Una vez importado, **la fuente de verdad es WordPress**: los cambios que hagas allí no vuelven a este repositorio. Para tener copia de seguridad: **Herramientas → Exportar** de vez en cuando.
 
-1. Sube este proyecto a un repositorio de GitHub (privado o público).
-2. En <https://dash.cloudflare.com> → *Workers & Pages* → *Create* → *Pages* → *Connect to Git*.
-3. Elige el repositorio y configura: **Framework preset** `Astro`, **Build command** `npm run build`, **Output directory** `dist`.
-4. Tendrás una URL gratuita `*.pages.dev`. Cada cambio en GitHub (o desde el CMS) se publica solo.
-
-(Netlify o Vercel funcionan igual con los mismos ajustes.)
-
-## Dominio propio
-
-1. Comprueba y compra `ikerroque.com` (Cloudflare Registrar vende a precio de coste, ~10 €/año).
-2. En el proyecto de Cloudflare Pages → *Custom domains* → añade `ikerroque.com` y `www.ikerroque.com`.
-3. Si el dominio final es otro, cámbialo en `astro.config.mjs` (`site`) y `public/robots.txt`.
-4. Crea el correo `hola@ikerroque.com` (Cloudflare Email Routing lo reenvía gratis a tu Gmail) o cambia el email en *Perfil*.
-
-## Versión en inglés (futuro)
-
-La estructura ya está preparada:
-1. Completa los textos `en` en `src/i18n/ui.ts`.
-2. Crea `src/content/proyectos/en/` y `src/content/ideas/en/` con los textos traducidos (mismo nombre de archivo).
-3. Crea las páginas en `src/pages/en/` (copiando las de español con `lang="en"`) y añade los `hreflang` en `BaseLayout.astro`.
-
-## Sección de servicios (futuro)
-
-Cuando empieces como freelance: añade `src/pages/servicios.astro` y el enlace en `Header.astro`. El sistema visual ya cubre lo necesario.
-
-## Seguridad y copias de seguridad
-
-- Web 100 % estática: no hay base de datos ni panel de acceso que atacar.
-- Cabeceras de seguridad en `public/_headers` (CSP, HSTS, anti-iframe…).
-- **Copia de seguridad = GitHub**: cada cambio (también los del CMS) queda guardado en el historial y se puede recuperar cualquier versión anterior. Para tener una copia extra, descarga el ZIP del repositorio de vez en cuando.
+La versión anterior (Astro) sigue en el historial de Git, en el commit `96d0eda`.
