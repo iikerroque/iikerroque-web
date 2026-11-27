@@ -10,7 +10,7 @@ export const perfil = {
   intro: 'Soy Iker Roque, creador de contenido con formación en marketing. Me interesa el punto donde se cruzan la comunicación, la tecnología y los proyectos propios.',
   availability: 'Abierto a agencias de marketing y colaboraciones con marcas',
   email: 'ikroquesan@gmail.com',
-  location: 'Las Palmas',
+  location: 'Las Palmas de Gran Canaria',
   photo: 'retrato-provisional.jpg',
   photoAlt: 'Retrato de Iker Roque',
   socials: [['LinkedIn', 'https://www.linkedin.com/in/iker-r-894699244/']],
@@ -24,8 +24,8 @@ export const perfil = {
     statement: 'Me mueve la curiosidad: entender por qué algo funciona y llevarlo a la práctica.',
     bio: [
       'Me dedico a crear contenido y tengo formación en marketing. Me interesan la comunicación, las redes sociales, la tecnología y, sobre todo, desarrollar ideas propias de principio a fin.',
-      '[Cuenta aquí tu historia: cómo empezaste a crear contenido, qué te llevó al marketing y qué has aprendido por el camino.]',
-      '[Añade un párrafo sobre cómo trabajas o qué te diferencia.]',
+      'Me he formado como Técnico Superior en Gestión de Ventas y Espacios Comerciales (2024–2026) y he completado cursos de marketing digital, SEO, SEM, social media y email marketing, además de certificaciones de Metricool, Google, Canva y Anthropic.',
+      'He trabajado como asistente de marketing en Empyre Systems, apoyando campañas digitales, la gestión de redes sociales, la creación de contenido y tareas de SEO/SEM. También he trabajado de cara al público en Primark e Intimissimi Uomo, en atención al cliente y venta.',
     ],
     interests: ['Marketing', 'Comunicación', 'Redes sociales', 'Tecnología', 'Inteligencia artificial', 'Proyectos propios', 'Eurovisión'],
     goals: [
@@ -113,19 +113,26 @@ export const habilidades = {
     { id: 'branding', title: 'Branding', text: 'Concepto de marca, identidad visual, tono de comunicación y experiencia de cliente.', items: [] },
     { id: 'ia', title: 'Inteligencia artificial', text: 'Uso de herramientas de IA para idear, investigar y producir de forma más eficiente.', items: [] },
     { id: 'automatizacion', title: 'Automatización', text: 'Flujos de trabajo que ahorran tiempo en tareas repetitivas de contenido y gestión.', items: [] },
-    { id: 'herramientas', title: 'Herramientas digitales', text: '[Añade las herramientas que usas: diseño, edición de vídeo, gestión de redes, analítica…]', items: [] },
+    { id: 'herramientas', title: 'Herramientas digitales', text: 'Herramientas con las que trabajo y en las que me he certificado.', items: ['Metricool', 'Canva', 'Claude'] },
   ],
 };
 
 export const trayectoria = {
-  summary: 'Creador de contenido con formación en marketing, interesado en comunicación digital, branding, tecnología e inteligencia artificial.',
+  summary: 'Técnico Superior en Gestión de Ventas y Espacios Comerciales, orientado al marketing digital, las redes sociales y la creación de contenido. Experiencia en agencia de marketing y atención al cliente, con conocimientos de SEO/SEM, organización de proyectos y análisis digital.',
   experience: [
-    { role: 'Creador y gestor de contenido', org: 'Euroverse (proyecto personal)', period: '[Fecha de inicio] – Actualidad', description: 'Creación de contenido, comunicación digital y gestión de redes sociales de un proyecto dedicado al universo Eurovisión.' },
-    { role: '[Puesto]', org: '[Empresa]', period: '[Inicio – Fin]', description: '[Describe en una o dos frases tus funciones y lo que aprendiste.]' },
+    { role: 'Dependiente', org: 'Primark', period: 'Oct 2026 – Ene 2027', description: 'Atención al cliente y apoyo en las operaciones de tienda. Reposición, organización de mercancía y mantenimiento del espacio comercial.' },
+    { role: 'Asistente de Marketing', org: 'Empyre Systems', period: 'Mar 2026 – May 2026', description: 'Apoyo en campañas de marketing digital, gestión de redes sociales y creación de contenido. Colaboración en tareas de SEO/SEM, documentación y seguimiento de proyectos.' },
+    { role: 'Vendedor', org: 'Intimissimi Uomo', period: 'Ene 2025 – Feb 2025', description: 'Atención personalizada, asesoramiento comercial y fidelización de clientes. Gestión de ventas, caja, reposición y organización de mercancía.' },
   ],
-  education: [{ title: '[Nombre de tu titulación en marketing]', org: '[Centro]', period: '[Años]' }],
-  courses: [{ title: '[Nombre del curso]', org: '[Plataforma o centro]', period: '[Año]' }],
-  languages: [{ name: 'Español', level: '[Nivel]' }, { name: 'Inglés', level: '[Nivel]' }],
+  education: [{ title: 'Técnico Superior en Gestión de Ventas y Espacios Comerciales', org: '', period: 'Sep 2024 – May 2026' }],
+  courses: [
+    { title: 'Claude Academy: Claude 101', org: 'Anthropic', period: '2026' },
+    { title: 'Metricool Expert Certificate', org: 'Metricool', period: '2026' },
+    { title: 'Fundamentos de Marketing Digital', org: 'Google', period: '2026' },
+    { title: 'Potencia tus campañas de marketing', org: 'Canva', period: '2026' },
+    { title: 'SEO, SEM, Social Media y Email Marketing', org: 'UEMC', period: '2026' },
+  ],
+  languages: [{ name: 'Español', level: 'Nativo' }, { name: 'Inglés', level: 'B1' }, { name: 'Italiano', level: 'A2' }],
 };
 
 export const articulos = [

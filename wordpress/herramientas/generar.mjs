@@ -382,7 +382,7 @@ pages.habilidades = [
     ['30%', [p(T(e.period), { size: '0.85rem', color: C.muted })]],
     ['70%', [
       heading(3, T(e.role ?? e.title), { size: '1.35rem', color: C.ink, ls: '-0.025em', lh: '1.2' }),
-      p(T(e.org), { color: C.violet, weight: '500', mt: '0.3rem' }),
+      ...(e.org ? [p(T(e.org), { color: C.violet, weight: '500', mt: '0.3rem' })] : []),
       ...(e.description ? [p(T(e.description), { color: C.muted, mt: '0.6rem' })] : []),
     ]],
   ], { gap: '1.5rem' });
