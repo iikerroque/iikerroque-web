@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Página no encontrada" noindex>
+  <section class="container nf">
+    <p class="label">Error 404</p>
+    <h1 class="display">Aquí no hay <span class="serif accent">nada</span> (todavía)<span class="d" aria-hidden="true"></span></h1>
+    <a href="/" class="btn btn-primary">Volver al inicio <span class="arrow">→</span></a>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf { padding-block: clamp(4rem, 12vw, 10rem); display: grid; gap: 2rem; justify-items: start; }
+  .display { color: var(--navy); max-width: 12ch; }
+  .d { display: inline-block; width: 0.16em; height: 0.16em; border-radius: 50%; background: var(--violet); margin-left: 0.04em; }
+</style>

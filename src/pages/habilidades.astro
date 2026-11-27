@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Field from '../components/Field.astro';
+import habilidades from '../data/habilidades.json';
+import { getProjects, slugOf } from '../lib/content';
+import { routes } from '../i18n/ui';
+
+const r = routes.es;
+const projects = await getProjects('es');
+---
+<BaseLayout title="Habilidades" description="Marketing digital, social media, creación de contenido, branding, inteligencia artificial y automatización.">
+  <section class="container head">
+    <p class="label" data-reveal>Habilidades</p>
+    <h1 class="display" data-reveal style="--i:1">Lo que <span class="serif accent">sé hacer</span></h1>
+    <p class="lead" data-reveal style="--i:2">{habilidades.intro}</p>
+  </section>
+
+  <section class="container">
+    <ol class="skills" role="list">
+      {habilidades.groups.map((g, i) => {
+        const used = projects.filter((p) => p.data.skills.includes(g.id));
+        return (
+          <li id={g.id} data-reveal>
+            <span class="label n">{String(i + 1).padStart(2, '0')}</span>
+            <h2 class="h2 s-title">{g.title}</h2>
+            <div class="s-body">
+              <p><Field value={g.text} /></p>
+              {g.items.length > 0 && <ul class="chips" role="list">{g.items.map((x: string) => <li class="chip">{x}</li>)}</ul>}
+              {used.length > 0 && (
+                <p class="used label">
+                  Aplicado en:{' '}
+                  {used.map((p, j) => (
+                    <><a href={`${r.projects}/${slugOf(p.id)}`} class="link">{p.data.title}</a>{j < used.length - 1 ? ', ' : ''}</>
+                  ))}
+                </p>
+              )}
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  </section>
+</BaseLayout>
+
+<style>
+  .head { padding-block: clamp(3rem, 7vw, 6rem) clamp(2.5rem, 6vw, 5rem); }
+  .head .display { color: var(--navy); margin-block: 1.25rem 1.5rem; }
+  .skills { list-style: none; padding: 0; border-bottom: 1px solid var(--line-strong); }
+  .skills > li {
+    display: grid; grid-template-columns: 4rem 1.1fr 1fr; gap: var(--gutter);
+    padding-block: clamp(1.75rem, 3.5vw, 2.75rem); border-top: 1px solid var(--line-strong);
+    scroll-margin-top: 6rem; transition: background 0.4s var(--ease);
+  }
+  .skills > li:target .s-title { color: var(--violet); }
+  .n { padding-top: 0.75rem; }
+  .s-title { color: var(--navy); transition: color 0.3s; }
+  .skills > li:hover .s-title { color: var(--violet); }
+  .s-body { display: grid; gap: 1rem; align-content: start; padding-top: 0.4rem; }
+  .s-body > p:first-child { color: var(--muted); }
+  .used { text-transform: none; letter-spacing: 0.02em; font-size: 0.8rem; }
+  .used a { color: var(--ink); }
+  @media (max-width: 860px) {
+    .skills > li { grid-template-columns: 2.5rem 1fr; }
+    .s-body { grid-column: 2; }
+  }
+</style>

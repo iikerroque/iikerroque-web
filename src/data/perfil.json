@@ -1,0 +1,62 @@
+{
+  "name": "Iker Roque",
+  "role": "Creador de contenido · Marketing",
+  "headline": "Contenido, marca e ideas que pasan a la acción.",
+  "intro": "Soy Iker Roque, creador de contenido con formación en marketing. Me interesa el punto donde se cruzan la comunicación, la tecnología y los proyectos propios.",
+  "availability": "Abierto a agencias de marketing y colaboraciones con marcas",
+  "location": "",
+  "email": "hola@ikerroque.com",
+  "photo": "",
+  "photoAlt": "Retrato de Iker Roque",
+  "cvFile": "",
+  "socials": {
+    "linkedin": "",
+    "instagram": "",
+    "tiktok": "",
+    "youtube": "",
+    "x": ""
+  },
+  "specialties": [
+    "Creación de contenido",
+    "Social media",
+    "Branding",
+    "Marketing digital",
+    "IA y automatización"
+  ],
+  "approach": [
+    {
+      "title": "Pienso en estrategia",
+      "text": "Antes de crear, entiendo el público, el contexto y el objetivo. Cada pieza tiene que tener una razón de ser."
+    },
+    {
+      "title": "Creo y produzco",
+      "text": "Del concepto al contenido final: ideas, identidad visual, copy y piezas para redes."
+    },
+    {
+      "title": "Construyo proyectos propios",
+      "text": "Aprendo haciendo. Lanzo y gestiono mis propias ideas, como Euroverse, para poner a prueba lo que sé."
+    }
+  ],
+  "about": {
+    "statement": "Me mueve la curiosidad: entender por qué algo funciona y llevarlo a la práctica.",
+    "bio": [
+      "Me dedico a crear contenido y tengo formación en marketing. Me interesan la comunicación, las redes sociales, la tecnología y, sobre todo, desarrollar ideas propias de principio a fin.",
+      "[Cuenta aquí tu historia: cómo empezaste a crear contenido, qué te llevó al marketing y qué has aprendido por el camino.]",
+      "[Añade un párrafo sobre cómo trabajas o qué te diferencia.]"
+    ],
+    "interests": [
+      "Marketing",
+      "Comunicación",
+      "Redes sociales",
+      "Tecnología",
+      "Inteligencia artificial",
+      "Proyectos propios",
+      "Eurovisión"
+    ],
+    "goals": [
+      "Incorporarme a una agencia de marketing y aprender de un equipo creativo.",
+      "Colaborar con marcas creando contenido y comunicación.",
+      "Seguir desarrollando proyectos propios."
+    ]
+  }
+}

@@ -1,0 +1,197 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import perfil from '../data/perfil.json';
+import { getProjects, getIdeas, slugOf, formatDate } from '../lib/content';
+import { routes } from '../i18n/ui';
+
+const r = routes.es;
+const projects = await getProjects('es');
+const featured = projects.filter((p) => p.data.featured).slice(0, 3);
+const ideas = (await getIdeas('es')).slice(0, 3);
+const indexOf = (id: string) => projects.findIndex((p) => p.id === id) + 1;
+---
+<BaseLayout>
+  <!-- HERO -->
+  <section class="hero container">
+    <div class="hero-top" data-reveal>
+      <span class="label"><span class="dot pulse" aria-hidden="true"></span>&nbsp; {perfil.availability}</span>
+      <span class="label hide-sm">Portfolio — {new Date().getFullYear()}</span>
+    </div>
+
+    <h1 class="display hero-title">
+      <span class="line" data-reveal style="--i:1">Contenido,</span>
+      <span class="line indent" data-reveal style="--i:2">marca <span class="serif accent">e ideas</span></span>
+      <span class="line" data-reveal style="--i:3">que pasan</span>
+      <span class="line indent-2" data-reveal style="--i:4">a la acción<span class="title-dot" aria-hidden="true"></span></span>
+    </h1>
+
+    <div class="hero-foot">
+      <p class="lead" data-reveal style="--i:5">{perfil.intro}</p>
+      <div class="actions" data-reveal style="--i:6">
+        <a href={r.projects} class="btn btn-primary">Ver proyectos <span class="arrow" aria-hidden="true">→</span></a>
+        <a href={r.contact} class="btn btn-ghost">Contactar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESPECIALIDADES -->
+  <section class="ticker" aria-label="Especialidades">
+    <ul class="ticker-track" role="list">
+      {[...perfil.specialties, ...perfil.specialties].map((s, i) => (
+        <li aria-hidden={i >= perfil.specialties.length ? 'true' : undefined}>{s}<span class="dot" aria-hidden="true"></span></li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- PROYECTOS DESTACADOS -->
+  <section class="section container" aria-labelledby="featured-title">
+    <div class="section-head" data-reveal>
+      <span class="label">01</span>
+      <h2 id="featured-title" class="label" style="color:var(--ink)">Proyectos destacados</h2>
+      <a href={r.projects} class="label link">Ver todos ({projects.length})</a>
+    </div>
+
+    <div class="featured">
+      {featured.map((p, i) => (
+        <div class={`f f-${i + 1}`}>
+          <ProjectCard project={p} index={indexOf(p.id)} size={i === 0 ? 'lg' : 'md'} eager={i === 0} />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- PROPUESTA DE VALOR -->
+  <section class="approach" aria-labelledby="approach-title">
+    <div class="container section">
+      <div class="section-head inverse" data-reveal>
+        <span class="label">02</span>
+        <span class="label">Cómo trabajo</span>
+      </div>
+      <div class="grid">
+        <h2 id="approach-title" class="h1 approach-title" data-reveal>
+          No me quedo en la idea: <span class="serif">la llevo a cabo.</span>
+        </h2>
+      </div>
+      <ol class="steps" role="list">
+        {perfil.approach.map((s, i) => (
+          <li data-reveal style={`--i:${i}`}>
+            <span class="step-n">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="h3">{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- IDEAS -->
+  {ideas.length > 0 && (
+    <section class="section container" aria-labelledby="ideas-title">
+      <div class="section-head" data-reveal>
+        <span class="label">03</span>
+        <h2 id="ideas-title" class="label" style="color:var(--ink)">Ideas</h2>
+        <a href={r.ideas} class="label link">Ver todas</a>
+      </div>
+      <ul class="idea-list" role="list">
+        {ideas.map((p) => (
+          <li data-reveal>
+            <a href={`${r.ideas}/${slugOf(p.id)}`}>
+              <time class="label" datetime={p.data.date.toISOString()}>{formatDate(p.data.date)}</time>
+              <span class="h3">{p.data.title}</span>
+              <span class="go" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <!-- SOBRE MÍ (teaser) -->
+  <section class="section container about-teaser">
+    <div class="grid">
+      <p class="label at-label" data-reveal>Sobre mí</p>
+      <p class="h2 at-text" data-reveal>
+        {perfil.about.statement} <a href={r.about} class="serif accent link-inline">Conóceme →</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .hero { padding-top: clamp(2.5rem, 6vw, 5rem); }
+  .hero-top { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: clamp(2rem, 5vw, 4rem); }
+  .pulse { width: 7px; height: 7px; animation: pulse 2.4s var(--ease) infinite; }
+  @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgb(105 85 232 / 0.5); } 50% { box-shadow: 0 0 0 7px rgb(105 85 232 / 0); } }
+  .hero-title { display: flex; flex-direction: column; color: var(--navy); }
+  .line { display: block; }
+  .indent { padding-left: 12%; }
+  .indent-2 { padding-left: 30%; }
+  .title-dot {
+    display: inline-block; width: 0.17em; height: 0.17em; margin-left: 0.04em;
+    border-radius: 50%; background: var(--violet);
+  }
+  .hero-foot {
+    display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem;
+    margin-top: clamp(2.5rem, 6vw, 5rem); padding-bottom: clamp(3rem, 6vw, 5rem);
+  }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+  /* Ticker */
+  .ticker { border-block: 1px solid var(--line-strong); overflow: hidden; padding-block: 1.1rem; }
+  .ticker-track {
+    display: flex; gap: 2.5rem; width: max-content; list-style: none; padding: 0;
+    animation: ticker 38s linear infinite;
+  }
+  .ticker li { display: inline-flex; align-items: center; gap: 2.5rem; font-size: var(--step-2); font-weight: 500; letter-spacing: -0.03em; white-space: nowrap; }
+  .ticker li:nth-child(even) { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
+  .ticker .dot { width: 0.35em; height: 0.35em; }
+  .ticker:hover .ticker-track { animation-play-state: paused; }
+  @keyframes ticker { to { transform: translateX(-50%); } }
+
+  /* Destacados: composición asimétrica */
+  .featured { display: grid; grid-template-columns: repeat(12, 1fr); gap: clamp(3rem, 6vw, 5rem) var(--gutter); }
+  .f-1 { grid-column: 1 / -1; }
+  .f-2 { grid-column: 1 / span 6; }
+  .f-3 { grid-column: 8 / span 5; margin-top: clamp(4rem, 12vw, 10rem); }
+
+  /* Cómo trabajo */
+  .approach { background: var(--navy); color: var(--paper); }
+  .section-head.inverse { border-top-color: rgb(255 255 255 / 0.5); }
+  .section-head.inverse .label { color: var(--lavender); }
+  .approach-title { grid-column: 1 / span 10; }
+  .approach-title .serif { color: var(--lavender); }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); margin-top: clamp(3rem, 7vw, 6rem); list-style: none; padding: 0; }
+  .steps li { border-top: 1px solid rgb(255 255 255 / 0.2); padding-top: 1.5rem; }
+  .step-n { font-family: var(--font-mono); font-size: 0.8rem; color: var(--lavender); }
+  .steps h3 { margin: 1.5rem 0 0.75rem; }
+  .steps p { color: rgb(248 249 252 / 0.75); max-width: 34ch; }
+
+  /* Ideas */
+  .idea-list { list-style: none; padding: 0; }
+  .idea-list a {
+    display: grid; grid-template-columns: 12rem 1fr auto; gap: 1rem; align-items: baseline;
+    padding-block: 1.6rem; border-bottom: 1px solid var(--line); transition: color 0.3s, padding 0.4s var(--ease);
+  }
+  .idea-list a:hover { color: var(--violet); padding-left: 0.75rem; }
+
+  /* Teaser */
+  .at-label { grid-column: 1 / span 3; padding-top: 0.6rem; }
+  .at-text { grid-column: 4 / -1; color: var(--navy); letter-spacing: -0.04em; line-height: 1.12; }
+  .link-inline { white-space: nowrap; transition: opacity 0.3s; }
+  .link-inline:hover { opacity: 0.7; }
+
+  @media (max-width: 860px) {
+    .hide-sm { display: none; }
+    .indent { padding-left: 6%; }
+    .indent-2 { padding-left: 14%; }
+    .hero-foot { grid-template-columns: 1fr; }
+    .f-2, .f-3 { grid-column: 1 / -1; margin-top: 0; }
+    .steps { grid-template-columns: 1fr; gap: 2.5rem; }
+    .approach-title { grid-column: 1 / -1; }
+    .idea-list a { grid-template-columns: 1fr auto; }
+    .idea-list time { grid-column: 1 / -1; }
+    .at-label, .at-text { grid-column: 1 / -1; }
+  }
+</style>

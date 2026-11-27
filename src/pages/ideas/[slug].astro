@@ -1,0 +1,52 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import perfil from '../../data/perfil.json';
+import { getIdeas, slugOf, formatDate, type Idea } from '../../lib/content';
+import { routes } from '../../i18n/ui';
+
+export async function getStaticPaths() {
+  const ideas = await getIdeas('es');
+  return ideas.map((post) => ({ params: { slug: slugOf(post.id) }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: Idea };
+const { data } = post;
+const { Content, remarkPluginFrontmatter } = await render(post);
+const r = routes.es;
+const words = post.body?.split(/\s+/).length ?? 0;
+const minutes = Math.max(1, Math.round(words / 220));
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: data.title,
+  description: data.description,
+  datePublished: data.date.toISOString(),
+  author: { '@type': 'Person', name: perfil.name },
+  url: new URL(`${r.ideas}/${slugOf(post.id)}`, Astro.site).toString(),
+};
+---
+<BaseLayout title={data.title} description={data.description} image={data.cover ?? '/og.png'} type="article" publishedTime={data.date} noindex={data.draft} jsonLd={jsonLd}>
+  <article class="container">
+    <header class="head">
+      <a href={r.ideas} class="label link">← Ideas</a>
+      <p class="label meta" data-reveal>
+        <time datetime={data.date.toISOString()}>{formatDate(data.date)}</time> · {minutes} min
+        {data.tags.length > 0 && <> · {data.tags.join(', ')}</>}
+      </p>
+      <h1 class="h1" data-reveal style="--i:1">{data.title}</h1>
+      <p class="lead" data-reveal style="--i:2">{data.description}</p>
+    </header>
+    {data.cover && <img class="cover" src={data.cover} alt={data.coverAlt ?? ''} loading="eager" />}
+    <div class="prose content"><Content /></div>
+  </article>
+</BaseLayout>
+
+<style>
+  .head { max-width: 60rem; padding-block: clamp(2rem, 5vw, 3.5rem) clamp(2rem, 5vw, 3.5rem); }
+  .meta { margin-block: clamp(2rem, 5vw, 4rem) 1.25rem; }
+  .h1 { color: var(--navy); margin-bottom: 1.5rem; }
+  .cover { width: 100%; border-radius: var(--radius); margin-bottom: 3rem; }
+  .content { margin-inline: auto; font-size: 1.125rem; line-height: 1.7; }
+</style>

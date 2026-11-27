@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Field from '../components/Field.astro';
+import Logo from '../components/Logo.astro';
+import perfil from '../data/perfil.json';
+import { routes } from '../i18n/ui';
+
+const r = routes.es;
+const a = perfil.about;
+---
+<BaseLayout title="Sobre mí" description={`${perfil.name}: ${perfil.role}. Mi historia, formación, intereses y objetivos.`} type="profile">
+  <section class="container head">
+    <p class="label" data-reveal>Sobre mí</p>
+    <h1 class="h1 statement" data-reveal style="--i:1">
+      {a.statement.split(':')[0]}{a.statement.includes(':') && <span class="serif accent">:{a.statement.split(':').slice(1).join(':')}</span>}
+    </h1>
+  </section>
+
+  <section class="container grid body">
+    <div class="photo" data-reveal>
+      {perfil.photo ? (
+        <img src={perfil.photo} alt={perfil.photoAlt} width="900" height="1125" loading="eager" />
+      ) : (
+        <div class="photo-ph" aria-hidden="true">
+          <Logo variant="mark" class="ph-mark" />
+          <span class="label">Tu foto aquí · perfil.json → photo</span>
+        </div>
+      )}
+    </div>
+
+    <div class="text">
+      <div class="bio prose" data-reveal>
+        {a.bio.map((p, i) => <p class={i === 0 ? 'first' : ''}><Field value={p} /></p>)}
+      </div>
+
+      <div class="cols">
+        <section data-reveal>
+          <h2 class="label">Intereses</h2>
+          <ul class="chips" role="list">{a.interests.map((x) => <li class="chip">{x}</li>)}</ul>
+        </section>
+        <section data-reveal style="--i:1">
+          <h2 class="label">Objetivos</h2>
+          <ol class="goals" role="list">{a.goals.map((g, i) => <li><span class="label">{String(i + 1).padStart(2, '0')}</span><span>{g}</span></li>)}</ol>
+        </section>
+      </div>
+
+      <div class="actions" data-reveal>
+        <a href={r.cv} class="btn btn-primary">Ver trayectoria <span class="arrow">→</span></a>
+        <a href={r.contact} class="btn btn-ghost">Hablemos</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .head { padding-block: clamp(3rem, 7vw, 6rem) clamp(2.5rem, 6vw, 5rem); }
+  .statement { color: var(--navy); max-width: 16ch; margin-top: 1.25rem; }
+  .body { align-items: start; }
+  .photo { grid-column: 1 / span 5; position: sticky; top: 6.5rem; }
+  .photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); }
+  .photo-ph {
+    aspect-ratio: 4 / 5; border-radius: var(--radius); display: grid; place-items: center; align-content: center; gap: 1.25rem;
+    background: linear-gradient(160deg, #e7eafb, #f1f0fd); box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .photo-ph :global(.ph-mark) { width: 96px; height: 96px; }
+  .text { grid-column: 7 / -1; }
+  .bio .first { font-size: var(--step-1); line-height: 1.45; color: var(--navy); font-weight: 500; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); margin-top: clamp(3rem, 6vw, 4.5rem); }
+  .cols h2 { margin-bottom: 1rem; }
+  .goals { list-style: none; padding: 0; }
+  .goals li { display: grid; grid-template-columns: 2.25rem 1fr; padding-block: 0.75rem; border-top: 1px solid var(--line); line-height: 1.45; }
+  .goals .label { padding-top: 0.2rem; color: var(--violet); }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 3rem; }
+  @media (max-width: 860px) {
+    .photo, .text { grid-column: 1 / -1; }
+    .photo { position: static; margin-bottom: 2.5rem; max-width: 420px; }
+    .cols { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,11 @@
+---
+/**
+ * Pinta un texto marcando como «pendiente» lo que va entre [corchetes].
+ * Así nada inventado llega a la web y es fácil ver qué falta por rellenar.
+ */
+interface Props { value?: string | null; fallback?: string }
+const { value, fallback = '[Pendiente]' } = Astro.props;
+const text = value && value.trim() ? value : fallback;
+const parts = text.split(/(\[[^\]]+\])/g).filter(Boolean);
+---
+{parts.map((p) => (p.startsWith('[') && p.endsWith(']') ? <span class="todo">{p.slice(1, -1)}</span> : p))}

@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import perfil from '../data/perfil.json';
+import { useTranslations } from '../i18n/ui';
+
+const t = useTranslations('es');
+const names: Record<string, string> = { linkedin: 'LinkedIn', instagram: 'Instagram', tiktok: 'TikTok', youtube: 'YouTube', x: 'X' };
+const socials = Object.entries(perfil.socials).filter(([, url]) => url);
+---
+<BaseLayout title="Contacto" description={`Contacta con ${perfil.name}. ${perfil.availability}.`}>
+  <section class="container head">
+    <p class="label" data-reveal><span class="dot" aria-hidden="true"></span>&nbsp; {perfil.availability}</p>
+    <h1 class="display" data-reveal style="--i:1">Hablemos<span class="serif accent">.</span></h1>
+    <p class="lead" data-reveal style="--i:2">
+      ¿Buscas a alguien con ganas para tu agencia o una colaboración para tu marca? Escríbeme y te respondo lo antes posible.
+    </p>
+  </section>
+
+  <section class="container">
+    <div class="mail-box" data-reveal>
+      <span class="label">Email</span>
+      <a href={`mailto:${perfil.email}`} class="mail">{perfil.email}</a>
+      <div class="mail-actions">
+        <a href={`mailto:${perfil.email}`} class="btn btn-primary">Escribir email <span class="arrow">→</span></a>
+        <button class="btn btn-ghost" data-copy={perfil.email} data-done={t('contact.copied')}>{t('contact.copy')}</button>
+        <span class="sr-only" aria-live="polite" data-copy-status></span>
+      </div>
+    </div>
+
+    <ul class="socials" role="list">
+      {socials.length > 0 ? socials.map(([key, url], i) => (
+        <li data-reveal style={`--i:${i}`}>
+          <a href={url} target="_blank" rel="me noopener noreferrer">
+            <span class="s-name">{names[key] ?? key}</span>
+            <span class="go" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      )) : (
+        <li class="todo-li"><span class="todo">Añade tus enlaces de LinkedIn y redes en src/data/perfil.json → socials</span></li>
+      )}
+    </ul>
+  </section>
+</BaseLayout>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const btn = document.querySelector<HTMLButtonElement>('[data-copy]');
+    const status = document.querySelector<HTMLElement>('[data-copy-status]');
+    if (!btn) return;
+    const original = btn.textContent;
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy!);
+        btn.textContent = btn.dataset.done!;
+        if (status) status.textContent = btn.dataset.done!;
+        setTimeout(() => { btn.textContent = original; }, 2000);
+      } catch { /* sin permisos de portapapeles: el enlace mailto sigue disponible */ }
+    });
+  });
+</script>
+
+<style>
+  .head { padding-block: clamp(3rem, 7vw, 6rem) clamp(2.5rem, 6vw, 4.5rem); }
+  .head .display { color: var(--navy); margin-block: 1.25rem 1.5rem; }
+  .mail-box {
+    border-top: 1px solid var(--line-strong); padding-top: 1.25rem;
+    display: grid; gap: 1.25rem;
+  }
+  .mail {
+    font-size: clamp(1.8rem, 0.8rem + 5vw, 5.5rem); font-weight: 600; letter-spacing: -0.05em; line-height: 1;
+    color: var(--navy); overflow-wrap: anywhere; transition: color 0.3s;
+  }
+  .mail:hover { color: var(--violet); }
+  .mail-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .socials { list-style: none; padding: 0; margin-top: clamp(3rem, 7vw, 6rem); border-top: 1px solid var(--line-strong); }
+  .socials a {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-block: 1.5rem; border-bottom: 1px solid var(--line); transition: padding 0.4s var(--ease), color 0.3s;
+  }
+  .s-name { font-size: var(--step-3); font-weight: 600; letter-spacing: -0.045em; }
+  .socials a:hover { color: var(--violet); padding-inline: 0.75rem; }
+  .go { font-size: 1.5rem; }
+  .todo-li { padding-block: 1.5rem; }
+</style>

@@ -1,0 +1,125 @@
+---
+import Logo from './Logo.astro';
+import { routes, useTranslations, getLangFromUrl } from '../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const r = routes[lang];
+const nav = [
+  { href: r.about, label: t('nav.about') },
+  { href: r.projects, label: t('nav.projects') },
+  { href: r.skills, label: t('nav.skills') },
+  { href: r.cv, label: t('nav.cv') },
+  { href: r.ideas, label: t('nav.ideas') },
+];
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => path === href || (href !== '/' && path.startsWith(href + '/'));
+---
+<header class="site-header" data-header>
+  <div class="container bar">
+    <a href={r.home} class="brand" aria-label="Iker Roque — inicio"><Logo /></a>
+
+    <nav class="nav" aria-label="Principal">
+      <ul role="list" id="nav-list">
+        {nav.map((item, i) => (
+          <li style={`--i:${i}`}>
+            <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+          </li>
+        ))}
+        <li class="nav-cta" style={`--i:${nav.length}`}>
+          <a href={r.contact} class="btn btn-primary" aria-current={isActive(r.contact) ? 'page' : undefined}>{t('nav.contact')} <span class="dot" aria-hidden="true"></span></a>
+        </li>
+      </ul>
+    </nav>
+
+    <button class="toggle" aria-expanded="false" aria-controls="nav-list" data-toggle>
+      <span class="toggle-text" data-open-text={t('nav.menu')} data-close-text={t('nav.close')}>{t('nav.menu')}</span>
+      <span class="toggle-icon" aria-hidden="true"><span></span><span></span></span>
+    </button>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    const header = document.querySelector<HTMLElement>('[data-header]');
+    const btn = document.querySelector<HTMLButtonElement>('[data-toggle]');
+    if (!header || !btn) return;
+    const label = btn.querySelector<HTMLElement>('.toggle-text')!;
+    const set = (open: boolean) => {
+      header.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', String(open));
+      label.textContent = open ? label.dataset.closeText! : label.dataset.openText!;
+      document.documentElement.style.overflow = open ? 'hidden' : '';
+    };
+    btn.onclick = () => set(!header.classList.contains('is-open'));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+    header.querySelectorAll('nav a').forEach((a) => a.addEventListener('click', () => set(false)));
+
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+  document.addEventListener('astro:page-load', initHeader);
+</script>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgb(248 249 252 / 0.82);
+    backdrop-filter: saturate(1.4) blur(14px);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s;
+  }
+  .site-header.is-scrolled { border-bottom-color: var(--line); }
+  .bar { display: flex; align-items: center; justify-content: space-between; height: 4.5rem; }
+  .brand { position: relative; z-index: 2; }
+
+  .nav ul { display: flex; align-items: center; gap: 0.25rem; list-style: none; padding: 0; }
+  .nav a:not(.btn) {
+    position: relative; display: block; padding: 0.5rem 0.8rem;
+    font-size: 0.95rem; font-weight: 500; color: var(--ink);
+    transition: color 0.3s;
+  }
+  .nav a:not(.btn)::after {
+    content: ''; position: absolute; left: 50%; bottom: 0.15rem;
+    width: 5px; height: 5px; border-radius: 50%; background: var(--violet);
+    transform: translateX(-50%) scale(0); transition: transform 0.35s var(--ease);
+  }
+  .nav a:not(.btn):hover { color: var(--violet); }
+  .nav a[aria-current='page']::after { transform: translateX(-50%) scale(1); }
+  .nav-cta { margin-left: 0.75rem; }
+  .nav-cta .btn { padding: 0.75rem 1.1rem; }
+  .nav-cta .dot { width: 6px; height: 6px; background: var(--lavender); }
+
+  .toggle { display: none; position: relative; z-index: 2; align-items: center; gap: 0.6rem; font-weight: 500; font-size: 0.95rem; }
+  .toggle-icon { display: grid; gap: 5px; width: 22px; }
+  .toggle-icon span { height: 1.5px; background: currentColor; transition: transform 0.4s var(--ease); }
+  .is-open .toggle-icon span:first-child { transform: translateY(3.25px) rotate(45deg); }
+  .is-open .toggle-icon span:last-child { transform: translateY(-3.25px) rotate(-45deg); }
+
+  @media (max-width: 860px) {
+    .toggle { display: inline-flex; }
+    .nav {
+      position: fixed; inset: 0; z-index: 1;
+      background: var(--paper);
+      padding: 6.5rem var(--gutter) 2rem;
+      visibility: hidden; opacity: 0;
+      transition: opacity 0.4s var(--ease), visibility 0.4s;
+    }
+    .is-open .nav { visibility: visible; opacity: 1; }
+    .nav ul { flex-direction: column; align-items: stretch; gap: 0; }
+    .nav li {
+      border-bottom: 1px solid var(--line);
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+      transition-delay: calc(var(--i) * 50ms + 80ms);
+    }
+    .is-open .nav li { opacity: 1; transform: none; }
+    .nav a:not(.btn) { font-size: var(--step-3); font-weight: 600; letter-spacing: -0.04em; padding: 0.9rem 0; }
+    .nav a:not(.btn)::after { left: auto; right: 0; bottom: 50%; width: 10px; height: 10px; transform: translateY(50%) scale(0); }
+    .nav a[aria-current='page']::after { transform: translateY(50%) scale(1); }
+    .nav-cta { margin: 2rem 0 0; border: 0 !important; }
+    .nav-cta .btn { width: 100%; justify-content: center; padding: 1.1rem; font-size: 1.05rem; }
+  }
+</style>

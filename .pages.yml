@@ -1,0 +1,211 @@
+# Configuración de Pages CMS (https://pagescms.org)
+# Editor visual gratuito que guarda los cambios directamente en tu repositorio de GitHub.
+
+media:
+  input: public/uploads
+  output: /uploads
+
+content:
+  # ── PROYECTOS ─────────────────────────────────────────────
+  - name: proyectos
+    label: Proyectos
+    type: collection
+    path: src/content/proyectos/es
+    filename: "{fields.title}.md"
+    view:
+      fields: [title, type, featured, order]
+      primary: title
+      sort: [order, title]
+    fields:
+      - { name: title, label: Título, type: string, required: true }
+      - { name: summary, label: Resumen (1–2 frases), type: text, required: true }
+      - name: type
+        label: Tipo de proyecto
+        type: select
+        required: true
+        options:
+          values:
+            - { value: personal, label: Personal }
+            - { value: academico, label: Académico }
+            - { value: conceptual, label: Conceptual }
+            - { value: profesional, label: Profesional }
+      - name: status
+        label: Estado (opcional)
+        type: select
+        options:
+          values:
+            - { value: en-curso, label: En curso }
+            - { value: en-desarrollo, label: En desarrollo }
+            - { value: finalizado, label: Finalizado }
+      - { name: year, label: Año, type: string }
+      - { name: role, label: Mi rol, type: string }
+      - name: skills
+        label: Habilidades aplicadas
+        type: select
+        options:
+          multiple: true
+          values:
+            - { value: marketing, label: Marketing digital }
+            - { value: social, label: Social Media }
+            - { value: contenido, label: Creación de contenido }
+            - { value: branding, label: Branding }
+            - { value: ia, label: Inteligencia artificial }
+            - { value: automatizacion, label: Automatización }
+            - { value: herramientas, label: Herramientas digitales }
+      - { name: scope, label: Alcance (áreas del proyecto), type: string, list: true }
+      - { name: tools, label: Herramientas utilizadas, type: string, list: true }
+      - { name: challenge, label: El reto, type: text }
+      - name: process
+        label: Proceso (pasos)
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Paso, type: string }
+          - { name: text, label: Descripción, type: text }
+      - { name: results, label: Resultados (solo datos reales), type: string, list: true }
+      - { name: learnings, label: Aprendizajes, type: text }
+      - { name: cover, label: Imagen de portada, type: image }
+      - { name: coverAlt, label: Texto alternativo de la portada, type: string }
+      - name: tone
+        label: Color de portada generada (si no hay imagen)
+        type: select
+        default: navy
+        options:
+          values: [navy, paper, violet, ink, lavender]
+      - name: gallery
+        label: Galería (imágenes o vídeos)
+        type: object
+        list: true
+        fields:
+          - { name: src, label: Archivo, type: file }
+          - { name: alt, label: Descripción, type: string }
+          - { name: caption, label: Pie de foto, type: string }
+      - { name: link, label: Enlace externo, type: string }
+      - { name: featured, label: Destacar en inicio, type: boolean, default: false }
+      - { name: order, label: Orden, type: number, default: 100 }
+      - { name: draft, label: Borrador (no publicar), type: boolean, default: false }
+      - { name: seoDescription, label: Descripción para Google (opcional), type: text }
+      - { name: body, label: Texto del proyecto, type: rich-text }
+
+  # ── IDEAS / BLOG ──────────────────────────────────────────
+  - name: ideas
+    label: Ideas (blog)
+    type: collection
+    path: src/content/ideas/es
+    filename: "{fields.title}.md"
+    view:
+      fields: [title, date, draft]
+      sort: [date]
+      default: { sort: date, order: desc }
+    fields:
+      - { name: title, label: Título, type: string, required: true }
+      - { name: description, label: Entradilla, type: text, required: true }
+      - { name: date, label: Fecha, type: date, required: true }
+      - { name: tags, label: Etiquetas, type: string, list: true }
+      - { name: cover, label: Imagen, type: image }
+      - { name: coverAlt, label: Texto alternativo, type: string }
+      - { name: draft, label: Borrador (no publicar), type: boolean, default: true }
+      - { name: body, label: Artículo, type: rich-text }
+
+  # ── PERFIL ────────────────────────────────────────────────
+  - name: perfil
+    label: Perfil y enlaces
+    type: file
+    path: src/data/perfil.json
+    format: json
+    fields:
+      - { name: name, label: Nombre, type: string }
+      - { name: role, label: Rol, type: string }
+      - { name: headline, label: Titular, type: string }
+      - { name: intro, label: Presentación, type: text }
+      - { name: availability, label: Disponibilidad, type: string }
+      - { name: location, label: Ubicación, type: string }
+      - { name: email, label: Email profesional, type: string }
+      - { name: photo, label: Foto, type: image }
+      - { name: photoAlt, label: Texto alternativo de la foto, type: string }
+      - { name: cvFile, label: CV en PDF (opcional), type: file }
+      - name: socials
+        label: Redes sociales
+        type: object
+        fields:
+          - { name: linkedin, label: LinkedIn (URL), type: string }
+          - { name: instagram, label: Instagram (URL), type: string }
+          - { name: tiktok, label: TikTok (URL), type: string }
+          - { name: youtube, label: YouTube (URL), type: string }
+          - { name: x, label: X (URL), type: string }
+      - { name: specialties, label: Especialidades, type: string, list: true }
+      - name: approach
+        label: Cómo trabajo
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Título, type: string }
+          - { name: text, label: Texto, type: text }
+      - name: about
+        label: Sobre mí
+        type: object
+        fields:
+          - { name: statement, label: Frase principal, type: string }
+          - { name: bio, label: Biografía (párrafos), type: text, list: true }
+          - { name: interests, label: Intereses, type: string, list: true }
+          - { name: goals, label: Objetivos, type: string, list: true }
+
+  # ── TRAYECTORIA / CV ──────────────────────────────────────
+  - name: trayectoria
+    label: Experiencia y formación
+    type: file
+    path: src/data/trayectoria.json
+    format: json
+    fields:
+      - { name: summary, label: Resumen profesional, type: text }
+      - name: experience
+        label: Experiencia
+        type: object
+        list: true
+        fields:
+          - { name: role, label: Puesto, type: string }
+          - { name: org, label: Empresa / proyecto, type: string }
+          - { name: period, label: Periodo, type: string }
+          - { name: description, label: Descripción, type: text }
+      - name: education
+        label: Formación
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Titulación, type: string }
+          - { name: org, label: Centro, type: string }
+          - { name: period, label: Periodo, type: string }
+          - { name: description, label: Descripción, type: text }
+      - name: courses
+        label: Cursos
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Curso, type: string }
+          - { name: org, label: Plataforma / centro, type: string }
+          - { name: period, label: Año, type: string }
+      - name: languages
+        label: Idiomas
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Idioma, type: string }
+          - { name: level, label: Nivel, type: string }
+
+  # ── HABILIDADES ───────────────────────────────────────────
+  - name: habilidades
+    label: Habilidades
+    type: file
+    path: src/data/habilidades.json
+    format: json
+    fields:
+      - { name: intro, label: Introducción, type: text }
+      - name: groups
+        label: Áreas
+        type: object
+        list: true
+        fields:
+          - { name: id, label: ID (no cambiar), type: string }
+          - { name: title, label: Título, type: string }
+          - { name: text, label: Descripción, type: text }
+          - { name: items, label: Herramientas / subhabilidades, type: string, list: true }
